@@ -41,15 +41,28 @@ let books = [
 ];
 
 // MIDDLEWARE
-app.unsubscribe(morgan("dev"));
+app.use(morgan("dev"));
 app.use(cors());
-app.use(express.json);
+app.use(express.json());
 
 // ROUTES
 app.get("/", (req, res) => {
    res.send("Hello World!");
 });
 
+// get all books
+app.get("/api/books", (req, res) => {
+   res.status(200).json(books);
+});
+
+//get 1 book by ID
+
+//delete 1 book by ID
+
+//create 1 book by ID
+
+// edit 1 book by ID
+
 app.listen(port, () => {
-   console.log(`Example app listening on port ${port}`);
+   console.log(`server is running http://localhost:${port}`);
 });
