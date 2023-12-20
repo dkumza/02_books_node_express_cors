@@ -2,3 +2,6 @@ GET http://localhost:3000
 
 ### get all books
 GET http://localhost:3000/api/books
+
+### get Single ubook
+GET http://localhost:3000/api/books/Test

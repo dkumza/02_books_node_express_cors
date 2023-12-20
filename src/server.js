@@ -56,8 +56,18 @@ app.get("/api/books", (req, res) => {
 });
 
 //get 1 book by ID
+app.get("/api/books/:title", (req, res) => {
+   console.log(req.params.title);
+   const bookTitle = req.params.title;
+   const found = books.find((book) => bookTitle === book.title);
+   if (found) res.status(200).json(found);
+   if (!found)
+      res.status(404).json({
+         msg: `book with title - ${bookTitle} not found`,
+      });
+});
 
-//delete 1 book by ID
+//delete 1 book by title
 
 //create 1 book by ID
 
