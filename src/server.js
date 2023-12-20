@@ -63,14 +63,48 @@ app.get("/api/books/:title", (req, res) => {
    if (found) res.status(200).json(found);
    if (!found)
       res.status(404).json({
-         msg: `book with title - ${bookTitle} not found`,
+         msg: `book with title - ${bookTitle} - not found`,
       });
 });
 
 //delete 1 book by title
+app.delete("/api/books/:title", (req, res) => {
+   const bookTitle = req.params.title;
+   console.log(bookTitle);
+   const bookExists = books.find((book) => book.title === bookTitle); // finds book in array
+   if (bookExists) {
+      books = books.filter((book) => book.title !== bookTitle);
+      res.status(200).json(books);
+   }
+   if (!bookExists)
+      res.status(404).json({
+         msg: `Delete FAILED. Book with title - ${bookTitle} - not found`,
+      });
+});
 
 //create 1 book by ID
+app.post("/api/books", (req, res) => {
+   // mini validation
+   if (req.body.title.trim().length === 0) {
+      // console.log("first");
+      res.status(400).json({
+         field: "title",
+         error: "Title is required",
+      });
+      return;
+   }
+   const newBook = {
+      title: req.body.title,
+      author: req.body.author,
+      isPublished: req.body.isPublished,
+      year: req.body.year,
+   };
+   books.push(newBook);
 
+   res.status(200).json({
+      msg: `book with title - ${newBook.title} - was created`,
+   });
+});
 // edit 1 book by ID
 
 app.listen(port, () => {
