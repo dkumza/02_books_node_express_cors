@@ -19,3 +19,14 @@ Content-Type:  application/json
     "isPublished": false,
     "year": "2027"
 }
+
+### Edit book
+PUT http://localhost:3000/api/books/Book%201
+Content-Type:  application/json
+
+{
+  "title": "Updated Book",
+    "author": "Author 6",
+    "isPublished": false,
+    "year": "2027"
+}

@@ -46,16 +46,17 @@ app.use(cors());
 app.use(express.json());
 
 // ROUTES
+
 app.get("/", (req, res) => {
    res.send("Hello World!");
 });
 
-// get all books
+// GET - get all books
 app.get("/api/books", (req, res) => {
    res.status(200).json(books);
 });
 
-//get 1 book by ID
+// GET - get 1 book by ID
 app.get("/api/books/:title", (req, res) => {
    console.log(req.params.title);
    const bookTitle = req.params.title;
@@ -67,7 +68,7 @@ app.get("/api/books/:title", (req, res) => {
       });
 });
 
-//delete 1 book by title
+// DELETE - delete 1 book by title
 app.delete("/api/books/:title", (req, res) => {
    const bookTitle = req.params.title;
    console.log(bookTitle);
@@ -82,7 +83,7 @@ app.delete("/api/books/:title", (req, res) => {
       });
 });
 
-//create 1 book by ID
+// POST - create 1 book
 app.post("/api/books", (req, res) => {
    // mini validation
    if (req.body.title.trim().length === 0) {
@@ -105,7 +106,27 @@ app.post("/api/books", (req, res) => {
       msg: `book with title - ${newBook.title} - was created`,
    });
 });
-// edit 1 book by ID
+// PUT - edit 1 book by title
+app.put("/api/books/:title", (req, res) => {
+   const bookTitle = req.params.title;
+   console.log(bookTitle);
+   const bookExists = books.find((book) => book.title === bookTitle);
+   const foundIdx = books.findIndex((book) => book.title === bookTitle); // finds book by index to edit
+
+   if (bookExists) {
+      books[foundIdx] = {
+         ...req.body,
+      };
+      res.status(200).json({
+         message: "Book updated successfully",
+         books,
+      });
+   }
+   if (!bookExists)
+      res.status(404).json({
+         msg: `Edit FAILED. Book with title - ${bookTitle} - not found`,
+      });
+});
 
 app.listen(port, () => {
    console.log(`server is running http://localhost:${port}`);
