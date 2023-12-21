@@ -87,7 +87,6 @@ app.delete("/api/books/:title", (req, res) => {
 app.post("/api/books", (req, res) => {
    // mini validation
    if (req.body.title.trim().length === 0) {
-      // console.log("first");
       res.status(400).json({
          field: "title",
          error: "Title is required",
@@ -110,7 +109,7 @@ app.post("/api/books", (req, res) => {
 app.put("/api/books/:title", (req, res) => {
    const bookTitle = req.params.title;
    console.log(bookTitle);
-   const bookExists = books.find((book) => book.title === bookTitle);
+   const bookExists = books.find((book) => book.title === bookTitle); // for validation, check if title exists before editing
    const foundIdx = books.findIndex((book) => book.title === bookTitle); // finds book by index to edit
 
    if (bookExists) {
